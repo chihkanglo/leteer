@@ -1,18 +1,62 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div id="home" :key="`home-${state}`">
+    <write-letter />
+    <letter
+      v-for="(letter, index) in letters"
+      :key="`letter-${index}`"
+      :title="letter.title"
+      :content="letter.content"
+      :author="letter.author"
+      :createdAt="letter.createdAt"
+      :id="letter.id"
+      @onEdit="onEditLetter"
+    />
+    <edit-letter
+      v-if="updateLetter"
+      :key="`update-letter-${updateLetter.id}`"
+      :letter="updateLetter"
+      @closeEditor="onCloseLetterEditor"
+    />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import { mapGetters } from "vuex";
+import EditLetter from "../components/EditLetter.vue";
+import Letter from "../components/Letter.vue";
+import WriteLetter from "../components/WriteLetter.vue";
 
 export default {
+  components: { Letter, WriteLetter, EditLetter },
   name: "Home",
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      updateLetter: null,
+      state: 0,
+    };
+  },
+  computed: {
+    ...mapGetters("lettersModule", ["letters"]),
+  },
+  methods: {
+    onEditLetter(letter) {
+      this.updateLetter = letter;
+    },
+    onCloseLetterEditor() {
+      this.updateLetter = null;
+      this.state += 1;
+    },
   },
 };
 </script>
+<style lang="scss" scoped>
+#home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  height: auto;
+  overflow: auto;
+  padding: 1rem;
+}
+</style>

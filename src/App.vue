@@ -1,32 +1,42 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <Layout v-100vh>
+    <Header class="header">
+      <h2>Leteer</h2>
+      <Menu mode="horizontal" theme="dark">
+        <MenuItem name="home"
+          ><Icon type="ios-paper-plane" /><router-link to="/"
+            >動態</router-link
+          ></MenuItem
+        >
+        <MenuItem name="about"
+          ><Icon type="ios-happy" /><router-link to="about"
+            >個人頁面</router-link
+          ></MenuItem
+        >
+      </Menu>
+    </Header>
+    <Content class="content">
+      <router-view></router-view>
+    </Content>
+    <Footer>Made with ♥ by Agang</Footer>
+  </Layout>
 </template>
 
+<script>
+export default {
+  name: "app",
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.content {
+  height: 100%;
+  overflow: auto;
 }
 </style>
